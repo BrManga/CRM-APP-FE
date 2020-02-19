@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./css/style.css";
 import signupimage from "./images/signup-image.jpg";
 import { Link } from "react-router-dom";
-function Signup() {
+import axios from "axios";
+const Signup = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const submitHandler = e => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/api/auth/register", {
+        email,
+        pass,
+        name
+      })
+      .then(res => console.log(res));
+  };
   return (
     <div className="main">
       <section className="signup">
@@ -12,9 +26,10 @@ function Signup() {
               <h2 className="form-title">Sign up</h2>
               <form
                 method="POST"
-                action="http://localhost:5000/api/auth/register"
+
                 className="register-form"
                 id="register-form"
+                onSubmit={submitHandler}
               >
                 <div className="form-group">
                   <label for="name">
@@ -25,6 +40,10 @@ function Signup() {
                     name="name"
                     id="name"
                     placeholder="Your Name"
+                    value={name}
+                    onChange={e => {
+                      setName(e.target.value);
+                    }}
                   />
                 </div>
                 <div className="form-group">
@@ -36,6 +55,10 @@ function Signup() {
                     name="email"
                     id="email"
                     placeholder="Your Email"
+                    value={email}
+                    onChange={e => {
+                      setEmail(e.target.value);
+                    }}
                   />
                 </div>
                 <div className="form-group">
@@ -47,19 +70,13 @@ function Signup() {
                     name="pass"
                     id="pass"
                     placeholder="Password"
+                    value={pass}
+                    onChange={e => {
+                      setPass(e.target.value);
+                    }}
                   />
                 </div>
-                <div className="form-group">
-                  <label for="re-pass">
-                    <i className="zmdi zmdi-lock-outline"></i>
-                  </label>
-                  <input
-                    type="password"
-                    name="re_pass"
-                    id="re_pass"
-                    placeholder="Repeat your password"
-                  />
-                </div>
+
                 <div className="form-group">
                   <input
                     type="checkbox"
@@ -67,12 +84,12 @@ function Signup() {
                     id="agree-term"
                     className="agree-term"
                   />
-                  <label for="agree-term" className="label-agree-term">
+                  <label htmlFor="agree-term" className="label-agree-term">
                     <span>
                       <span></span>
                     </span>
                     I agree all statements in{" "}
-                    <a href="#" className="term-service">
+                    <a href="/" className="term-service">
                       Terms of service
                     </a>
                   </label>
@@ -90,7 +107,7 @@ function Signup() {
             </div>
             <div className="signup-image">
               <figure>
-                <img src={signupimage} alt="sing up image" />
+                <img src={signupimage} alt="sing up" />
               </figure>
               <Link to="signin" className="signup-image-link">
                 I am already member
@@ -101,6 +118,6 @@ function Signup() {
       </section>
     </div>
   );
-}
+};
 
 export default Signup;

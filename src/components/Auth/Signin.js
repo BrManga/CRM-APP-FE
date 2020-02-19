@@ -1,93 +1,126 @@
-import React from "react";
+import React, { useState } from "react";
 import "./css/style.css";
 import signinimage from "./images/signin-image.jpg";
+import axios from "axios";
 
 import { Link } from "react-router-dom";
-function Signin() {
+const Signin = props => {
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  //const [state, setstate] = useState("")
+  const submitHandler = e => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/api/auth/login", { email, pass })
+
+      .then(res => {
+        if (res.data.token) {
+          props.setLoginstatus(true);
+          localStorage.setItem("token", res.data.token);
+        } else {
+          props.setLoginstatus(false);
+          localStorage.setItem("token", "");
+
+        }
+      });
+  };
+//Another way to use with one Hooks
+//setstate(prevstate=>({
+//  ...prevstate,
+//  [e.target.value]:e.target.value
+//})
   return (
     <div className="main">
-      <section class="signin">
-        <div class="container">
-          <div class="signin-content">
-            <div class="signin-image">
+      <section className="signin">
+        <div className="container">
+          <div className="signin-content">
+            <div className="signin-image">
               <figure>
-                <img src={signinimage} alt="sign in image" />
+                <img src={signinimage} alt="sign in" />
               </figure>
-              <Link to="signup" class="signup-image-link">
+              <Link to="signup" className="signup-image-link">
                 Create an account
               </Link>
             </div>
 
-            <div class="signin-form">
-              <h2 class="form-title">Sign in</h2>
+            <div className="signin-form">
+              <h2 className="form-title">Sign in</h2>
               <form
                 method="POST"
-                action="http://localhost:5000/api/auth/login"
-                class="register-form"
+                className="register-form"
                 id="login-form"
+                onSubmit={e => submitHandler(e)}
               >
-                <div class="form-group">
-                  <label for="email">
-                    <i class="zmdi zmdi-account material-icons-name"></i>
+                <div className="form-group">
+                  <label htmlFor="email">
+                    <i className="zmdi zmdi-account material-icons-name"></i>
                   </label>
                   <input
                     type="email"
                     name="email"
                     id="email"
                     placeholder="Email"
+                    value={email}
+                    onChange={e => {
+                      setEmail(e.target.value);
+                    }}
                   />
                 </div>
-                <div class="form-group">
-                  <label for="pass">
-                    <i class="zmdi zmdi-lock"></i>
+                <div className="form-group">
+                  <label htmlFor="pass">
+                    <i className="zmdi zmdi-lock"></i>
                   </label>
                   <input
                     type="password"
                     name="pass"
                     id="pass"
                     placeholder="Password"
+                    value={pass}
+                    onChange={e => {
+                      setPass(e.target.value);
+                    }}
                   />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                   <input
                     type="checkbox"
                     name="remember-me"
                     id="remember-me"
-                    class="agree-term"
+                    className="agree-term"
                   />
-                  <label for="remember-me" class="label-agree-term">
+                  <label htmlFor="remember-me" className="label-agree-term">
                     <span>
                       <span></span>
                     </span>
                     Remember me
                   </label>
                 </div>
-                <div class="form-group form-button">
+                <div className="form-group form-button">
                   <input
                     type="submit"
                     name="signin"
                     id="signin"
-                    class="form-submit"
+                    className="form-submit"
                     value="Log in"
                   />
                 </div>
               </form>
-              <div class="social-login">
-                <span class="social-label">Or login with</span>
-                <ul class="socials">
+              <div className="social-login">
+                <span className="social-label">Or login with</span>
+                <ul className="socials">
                   <li>
-                    <a href="#">
-                      <i class="display-flex-center zmdi zmdi-facebook"></i>
+                    <a href="/">
+                      <i className="display-flex-center zmdi zmdi-facebook"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
-                      <i class="display-flex-center zmdi zmdi-twitter"></i>
+                    <a href="/">
+                      <i className="display-flex-center zmdi zmdi-twitter"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
-                      <i class="display-flex-center zmdi zmdi-google"></i>
+                    <a href="/">
+                      <i className="display-flex-center zmdi zmdi-google"></i>
                     </a>
                   </li>
                 </ul>
@@ -98,6 +131,6 @@ function Signin() {
       </section>
     </div>
   );
-}
+};
 
 export default Signin;
