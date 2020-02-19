@@ -1,6 +1,8 @@
 import React from "react";
 import "./css/style.css";
 import signinimage from "./images/signin-image.jpg";
+
+import { Link } from "react-router-dom";
 function Signin() {
   return (
     <div className="main">
@@ -11,9 +13,9 @@ function Signin() {
               <figure>
                 <img src={signinimage} alt="sign in image" />
               </figure>
-              <a href="#" class="signup-image-link">
+              <Link to="signup" class="signup-image-link">
                 Create an account
-              </a>
+              </Link>
             </div>
 
             <div class="signin-form">

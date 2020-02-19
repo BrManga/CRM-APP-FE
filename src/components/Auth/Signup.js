@@ -1,6 +1,7 @@
 import React from "react";
-import "./css/style.css"
-import signupimage from "./images/signup-image.jpg"
+import "./css/style.css";
+import signupimage from "./images/signup-image.jpg";
+import { Link } from "react-router-dom";
 function Signup() {
   return (
     <div className="main">
@@ -9,7 +10,12 @@ function Signup() {
           <div className="signup-content">
             <div className="signup-form">
               <h2 className="form-title">Sign up</h2>
-              <form method="POST" className="register-form" id="register-form">
+              <form
+                method="POST"
+                action="http://localhost:5000/api/auth/register"
+                className="register-form"
+                id="register-form"
+              >
                 <div className="form-group">
                   <label for="name">
                     <i className="zmdi zmdi-account material-icons-name"></i>
@@ -86,14 +92,13 @@ function Signup() {
               <figure>
                 <img src={signupimage} alt="sing up image" />
               </figure>
-              <a href="#" className="signup-image-link">
+              <Link to="signin" className="signup-image-link">
                 I am already member
-              </a>
+              </Link>
             </div>
           </div>
         </div>
       </section>
-      
     </div>
   );
 }
