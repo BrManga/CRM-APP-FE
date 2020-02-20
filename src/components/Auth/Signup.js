@@ -3,10 +3,13 @@ import "./css/style.css";
 import signupimage from "./images/signup-image.jpg";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [emailtaken, setemailtaken] = useState(false);
+  const [signupsucess, setSignupsucess] = useState(false)
   const submitHandler = e => {
     e.preventDefault();
     axios
@@ -15,8 +18,19 @@ const Signup = () => {
         pass,
         name
       })
-      .then(res => console.log(res));
+      .then(res => {
+        console.log(res);
+        if (res.data.status === "success") {
+          console.log("hereeeee");
+          setSignupsucess(true)
+
+
+        } else {
+          setemailtaken(true);
+        }
+      });
   };
+  if(signupsucess){return <Redirect to="/signin" />}else{
   return (
     <div className="main">
       <section className="signup">
@@ -26,13 +40,12 @@ const Signup = () => {
               <h2 className="form-title">Sign up</h2>
               <form
                 method="POST"
-
                 className="register-form"
                 id="register-form"
                 onSubmit={submitHandler}
               >
                 <div className="form-group">
-                  <label for="name">
+                  <label htmlFor="name">
                     <i className="zmdi zmdi-account material-icons-name"></i>
                   </label>
                   <input
@@ -47,7 +60,7 @@ const Signup = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label for="email">
+                  <label htmlFor="email">
                     <i className="zmdi zmdi-email"></i>
                   </label>
                   <input
@@ -61,8 +74,9 @@ const Signup = () => {
                     }}
                   />
                 </div>
+                {emailtaken ? <small>Email is already taken</small> : null}
                 <div className="form-group">
-                  <label for="pass">
+                  <label htmlFor="pass">
                     <i className="zmdi zmdi-lock"></i>
                   </label>
                   <input
@@ -117,7 +131,7 @@ const Signup = () => {
         </div>
       </section>
     </div>
-  );
+  )};
 };
 
 export default Signup;

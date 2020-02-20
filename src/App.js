@@ -6,23 +6,16 @@ import { Switch, Route } from "react-router-dom";
 import Dashboard from "./components/dashboard";
 
 const App = () => {
-  const [loginstatus, setLoginstatus] = useState(false);
-
   return (
     <div className="App">
       <Switch>
-        {!loginstatus ? (
-          <>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/">
-              <Signin setLoginstatus={setLoginstatus} />
-            </Route>
-          </>
-        ) : (
-          <Dashboard path="/dashboard" />
-        )}
+        <Route exact path="/signup">
+          <Signup />
+        </Route>
+        <Route exact path="/">
+          <Signin />
+        </Route>
+        <Route exact path="/dashboard" component={Dashboard}/>
       </Switch>
     </div>
   );
