@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { Link } from "react-router-dom";
-function Dashboard(props) {
-  
-
+function Dashboard() {
   return (
     <div>
       <>

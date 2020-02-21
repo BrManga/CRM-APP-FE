@@ -32,8 +32,6 @@ export default function withAuth(ComponentToProtect, path) {
         });
     }
     render() {
-      console.log("withauth component state", this.state);
-
       const { loading, redirect } = this.state;
       if (loading) {
         return null;

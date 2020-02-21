@@ -17,10 +17,9 @@ const Signin = props => {
       .post("http://localhost:5000/api/auth/login", { email, pass })
 
       .then(res => {
-
         if (res.data.token) {
           console.log(res.data.token);
-          await localStorage.setItem("token", res.data.token);
+          localStorage.setItem("token", res.data.token);
           setsigninStatus(true);
         } else {
           localStorage.setItem("token", "");
