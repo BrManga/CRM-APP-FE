@@ -10,16 +10,18 @@ const Signin = props => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   //const [state, setstate] = useState("")
+  console.log("signinstatus", signinStatus);
   const submitHandler = e => {
     e.preventDefault();
     axios
       .post("http://localhost:5000/api/auth/login", { email, pass })
 
       .then(res => {
+
         if (res.data.token) {
           console.log(res.data.token);
+          await localStorage.setItem("token", res.data.token);
           setsigninStatus(true);
-          localStorage.setItem("token", res.data.token);
         } else {
           localStorage.setItem("token", "");
         }
@@ -31,7 +33,7 @@ const Signin = props => {
   //  [e.target.value]:e.target.value
   //})
   if (signinStatus) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/" />;
   } else {
     return (
       <div className="main">
