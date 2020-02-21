@@ -1,16 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 export default function withAuth(ComponentToProtect, path) {
-  return class extends Component {
-    constructor() {
-      super();
-      this.state = {
-        loading: true,
-        redirect: false
-      };
-    }
-    componentDidMount() {
+  return (props) => {
+    const [loading, setLoading] = useState(true);
+    const [redirect, setRedirect] = useState(false);
+    useEffect(() => {
       axios
         .get(`http://localhost:5000/${path}`, {
           headers: { "x-auth-token": localStorage.getItem("token") }
@@ -21,25 +16,24 @@ export default function withAuth(ComponentToProtect, path) {
           if (res.status === 200) {
             console.log(res.data);
 
-            this.setState({ loading: false });
+            setLoading(false);
           } else {
             const error = new Error(res.error);
             throw error;
           }
         })
         .catch(err => {
-          this.setState({ loading: false, redirect: true });
+          setLoading(false);
+          setRedirect(true);
         });
+    }, []);
+
+    if (loading) {
+      return null;
     }
-    render() {
-      const { loading, redirect } = this.state;
-      if (loading) {
-        return null;
-      }
-      if (redirect) {
-        return <Redirect to="/signin" />;
-      }
-      return <ComponentToProtect {...this.props} />;
+    if (redirect) {
+      return <Redirect to="/signin" />;
     }
+    return <ComponentToProtect {...props} />;
   };
 }
