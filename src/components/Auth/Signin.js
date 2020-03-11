@@ -9,6 +9,7 @@ const Signin = props => {
   const [signinStatus, setsigninStatus] = useState(false);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [wrong, setWrong] = useState(false);
   //const [state, setstate] = useState("")
   console.log("signinstatus", signinStatus);
   const submitHandler = e => {
@@ -23,6 +24,7 @@ const Signin = props => {
           setsigninStatus(true);
         } else {
           localStorage.setItem("token", "");
+          setWrong(true);
         }
       });
   };
@@ -86,6 +88,11 @@ const Signin = props => {
                       }}
                     />
                   </div>
+                  {wrong ? (
+                    <small style={{ color: "red" }}>
+                      Wrong password or username
+                    </small>
+                  ) : null}
                   <div className="form-group">
                     <input
                       type="checkbox"
