@@ -3,7 +3,8 @@ import { Link, Redirect } from "react-router-dom";
 import Card from "../Card/Card";
 import "./dashboard.style.scss";
 import axios from "axios";
-function Dashboard() {
+import FormData from "form-data";
+function Dashboard(props) {
   const [login, setLogin] = useState(true);
 
   const logout = () => {
@@ -12,29 +13,45 @@ function Dashboard() {
   };
   const submitHandler = e => {
     e.preventDefault();
+    const formData = new FormData();
+
+    formData.append("file", e.target.file.files[0]);
+    formData.append("name", e.target.name.value);
+    formData.append("email", e.target.email.value);
+    formData.append("phone", e.target.phone.value);
+    formData.append("notes", e.target.notes.value);
+
     axios
       .post(
         "http://localhost:5000/api/dashboard/newPerson",
-        {
-          file: e.target.file.files,
-          name: e.target.name.value,
-          email: e.target.email.value,
-          phone: e.target.phone.value,
-          notes: e.target.notes.value
-        },
+        /* {
+        
+        name:e.target.name.value, 
+        email:e.target.email.value,
+        phone:e.target.phone.value,
+        notes:e.target.notes.value
+    } */
+        formData,
         {
           headers: {
             "x-auth-token": localStorage.getItem("token"),
-            "Content-Type": "multipart/form-data"
+            "content-type": "multipart/form-data"
           }
         }
       )
-
-      .then(res => {
-        if (res) {
-          console.log(res);
+      .then(function(response) {
+        console.log(response);
+        if (response.data.status == "success") {
+          console.log('success');
+          ;
         } else {
+          localStorage.removeItem("token");
+          props.history.push("/signin");
         }
+      })
+      .catch(function(error) {
+        console.log(error);
+        props.history.push("/signin");
       });
   };
   if (!login) {
@@ -49,7 +66,11 @@ function Dashboard() {
         <div className="row">
           <div className="col-4 ">
             <p className="user-info">USER INFORMATION</p>
-            <form className="user-form" onSubmit={submitHandler} >
+            <form
+              className="user-form"
+              onSubmit={submitHandler}
+              enctype="multipart/form-data"
+            >
               <div className="form-group">
                 <p>Upload Photo</p>
                 <input
