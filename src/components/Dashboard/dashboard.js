@@ -6,7 +6,7 @@ import axios from "axios";
 import FormData from "form-data";
 function Dashboard(props) {
   const [login, setLogin] = useState(true);
-
+  const [state, setState] = useState([]);
   const logout = () => {
     localStorage.setItem("token", "");
     setLogin(false);
@@ -42,8 +42,9 @@ function Dashboard(props) {
       .then(function(response) {
         console.log(response);
         if (response.data.status == "success") {
-          console.log('success');
-          ;
+          console.log(response.data.message);
+
+          setState(response.data.message);
         } else {
           localStorage.removeItem("token");
           props.history.push("/signin");
@@ -54,6 +55,18 @@ function Dashboard(props) {
         props.history.push("/signin");
       });
   };
+  const cards = state.map(data => {
+    return (
+      <Card
+        name={data.name}
+        notes={data.notes}
+        email={data.email}
+        phone={data.phone}
+        key={data.referenceId}
+        avatar={data.avatar}
+      />
+    );
+  });
   if (!login) {
     return <Redirect to="/signin" />;
   } else {
@@ -87,6 +100,7 @@ function Dashboard(props) {
                   className="form-control"
                   name="name"
                   placeholder="Name"
+                  required
                 />
               </div>
               <div className="form-group">
@@ -120,8 +134,9 @@ function Dashboard(props) {
               <button className="btn btn-danger btn-block">SAVE</button>
             </form>
           </div>
+
           <div className="col-8">
-            <Card />
+            <div className="row">{cards}</div>
           </div>
         </div>
 
