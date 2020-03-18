@@ -69,7 +69,7 @@ function Dashboard(props) {
             <form
               className="user-form"
               onSubmit={submitHandler}
-              enctype="multipart/form-data"
+              encType="multipart/form-data"
             >
               <div className="form-group">
                 <p>Upload Photo</p>
