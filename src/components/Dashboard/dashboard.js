@@ -31,6 +31,27 @@ function Dashboard(props) {
         props.history.push("/signin");
       });
   }, []);
+  const saveHandler = (id, data) => {
+    console.log("id", id, "data", data);
+    axios
+    .post(
+      "http://localhost:5000/api/dashboard/savePerson",
+      {
+        id: id,
+        data:data
+      },
+      {
+        headers: {
+          "x-auth-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .then(response => {
+      console.log("FROM FE data saved data:", response.data.message);
+
+      setState(response.data.message);
+    });
+  };
   const deleteHandler = id => {
     axios
       .post(
@@ -107,7 +128,8 @@ function Dashboard(props) {
         key={data.referenceId}
         avatar={data.avatar}
         id={data._id}
-        click={() => deleteHandler(data._id)}
+        deleteHandler={() => deleteHandler(data._id)}
+        saveHandler={saveHandler}
       />
     );
   });
