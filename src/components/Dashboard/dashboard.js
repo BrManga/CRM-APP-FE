@@ -4,9 +4,52 @@ import Card from "../Card/Card";
 import "./dashboard.style.scss";
 import axios from "axios";
 import FormData from "form-data";
+import { useEffect } from "react";
 function Dashboard(props) {
+  console.log("props", props);
+
   const [login, setLogin] = useState(true);
   const [state, setState] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/dashboard", {
+        headers: { "x-auth-token": localStorage.getItem("token") }
+      })
+      .then(function(response) {
+        console.log(response);
+        if (response.data.status == "success") {
+          console.log("axios data part", response.data.status);
+
+          setState(response.data.message);
+        } else {
+          localStorage.removeItem("token");
+          props.history.push("/signin");
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+        props.history.push("/signin");
+      });
+  }, []);
+  const deleteHandler = id => {
+    axios
+      .post(
+        "http://localhost:5000/api/dashboard/deletePerson",
+        {
+          id: id
+        },
+        {
+          headers: {
+            "x-auth-token": localStorage.getItem("token")
+          }
+        }
+      )
+      .then(response => {
+        console.log("response data", response.data.message);
+
+        setState(response.data.message);
+      });
+  };
   const logout = () => {
     localStorage.setItem("token", "");
     setLogin(false);
@@ -40,7 +83,6 @@ function Dashboard(props) {
         }
       )
       .then(function(response) {
-        console.log(response);
         if (response.data.status == "success") {
           console.log(response.data.message);
 
@@ -64,6 +106,8 @@ function Dashboard(props) {
         phone={data.phone}
         key={data.referenceId}
         avatar={data.avatar}
+        id={data._id}
+        click={() => deleteHandler(data._id)}
       />
     );
   });
@@ -71,13 +115,17 @@ function Dashboard(props) {
     return <Redirect to="/signin" />;
   } else {
     return (
-      <>
-        <h1>WELCOME</h1>
-        <button className="btn btn-danger logout-button" onClick={logout}>
+      <div className="all">
+        <h1 className="title">WELCOME</h1>
+        <button
+          className="btn logoutButton logout-button mr-auto"
+          onClick={logout}
+        >
           Logout
         </button>
+
         <div className="row">
-          <div className="col-4 ">
+          <div className="infoEntrance col-sm-12 col-lg-4 ">
             <p className="user-info">USER INFORMATION</p>
             <form
               className="user-form"
@@ -131,19 +179,15 @@ function Dashboard(props) {
                   placeholder="Notes"
                 ></textarea>
               </div>
-              <button className="btn btn-danger btn-block">SAVE</button>
+              <button className="btn btn-block saveButton">SAVE</button>
             </form>
           </div>
 
-          <div className="col-8">
-            <div className="row">{cards}</div>
+          <div className="col-sm-12 col-lg-8">
+            <div className="cardContainer row vh-100">{cards}</div>
           </div>
         </div>
-
-        <div>
-          <Link to="dashboard/companysecrets">Company Secrets</Link>
-        </div>
-      </>
+      </div>
     );
   }
 }

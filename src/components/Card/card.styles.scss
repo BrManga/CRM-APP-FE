@@ -1,0 +1,58 @@
+$color1: #fc766aff;
+$color2: #b0b8b4ff;
+$color3: #184a45ff;
+.card {
+  width: 300px;
+  height: 600px;
+  box-shadow: 10px 10px 5px 0px $color3;
+  box-sizing: border-box;
+  border: 12px double $color3 !important;
+  &:hover {
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  }
+  img {
+    height: 200px;
+  }
+  .card-title {
+    font-weight: 700;
+  }
+  .card-email {
+    font-size: 0.9rem;
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    &:hover {
+      color: white;
+      background-color: red;
+      a {
+        color: white;
+      }
+    }
+  }
+  .card-phone {
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    &:hover {
+      color: white;
+      background-color: red;
+      a {
+        color: white;
+      }
+    }
+  }
+
+  .card-text {
+    height: 80px;
+    overflow: auto;
+    width: 100%;
+    background-color: rgb(245, 237, 237);
+  }
+  textarea {
+    resize: none;
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+}

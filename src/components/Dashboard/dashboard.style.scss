@@ -1,18 +1,56 @@
+$color1: #fc766aff;
+$color2: #b0b8b4ff;
+$color3: #184a45ff;
+.all {
+  background-color: $color2 !important;
+}
+.title {
+  color: $color3;
+}
+.logoutButton {
+  background-color: $color3 !important;
+  color: white !important;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+.infoEntrance {
+  background-color: $color1;
+  min-width: 380px !important;
+  height: 100vh;
+  @media only screen and (max-width: 1000px) {
+    height: auto;
+  }
+}
 .logout-button {
   margin-bottom: 30px;
 }
 .user-info {
   font-size: 2rem;
   font-weight: bold;
+  color: black;
 }
 
 .user-form {
   height: 600px;
   width: 80%;
   margin: 0 auto;
-  border: 2px solid rgb(58, 50, 50);
+  @media only screen and (max-width: 1000px) {
+    margin: 20px auto;
+  }
 }
 .form-group p {
   font-size: 20px;
+  color: black;
   font-weight: bold;
+}
+.saveButton {
+  background-color: $color2 !important;
+}
+.cardContainer {
+  overflow: scroll;
+  @media only screen and (max-width: 1000px) {
+    display: flex;
+    justify-content: center;
+  }
 }
