@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Card from "../Card/Card";
 import "./dashboard.style.scss";
 import axios from "axios";
@@ -34,23 +34,23 @@ function Dashboard(props) {
   const saveHandler = (id, data) => {
     console.log("id", id, "data", data);
     axios
-    .post(
-      "http://localhost:5000/api/dashboard/savePerson",
-      {
-        id: id,
-        data:data
-      },
-      {
-        headers: {
-          "x-auth-token": localStorage.getItem("token")
+      .post(
+        "http://localhost:5000/api/dashboard/savePerson",
+        {
+          id: id,
+          data: data
+        },
+        {
+          headers: {
+            "x-auth-token": localStorage.getItem("token")
+          }
         }
-      }
-    )
-    .then(response => {
-      console.log("FROM FE data saved data:", response.data.message);
+      )
+      .then(response => {
+        console.log("FROM FE data saved data:", response.data.message);
 
-      setState(response.data.message);
-    });
+        setState(response.data.message);
+      });
   };
   const deleteHandler = id => {
     axios
@@ -128,7 +128,7 @@ function Dashboard(props) {
         key={data.referenceId}
         avatar={data.avatar}
         id={data._id}
-        deleteHandler={() => deleteHandler(data._id)}
+        deleteHandler={deleteHandler}
         saveHandler={saveHandler}
       />
     );
@@ -146,7 +146,7 @@ function Dashboard(props) {
           Logout
         </button>
 
-        <div className="row">
+        <div className="row userinfoRow">
           <div className="infoEntrance col-sm-12 col-lg-4 ">
             <p className="user-info">USER INFORMATION</p>
             <form
@@ -205,8 +205,8 @@ function Dashboard(props) {
             </form>
           </div>
 
-          <div className="col-sm-12 col-lg-8">
-            <div className="cardContainer row vh-100">{cards}</div>
+          <div className="col-sm-12 col-lg-8 another">
+            <div className="cardContainer row">{cards}</div>
           </div>
         </div>
       </div>

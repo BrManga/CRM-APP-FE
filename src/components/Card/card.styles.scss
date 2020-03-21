@@ -10,8 +10,13 @@ $color3: #184a45ff;
   &:hover {
     box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
   }
+  hr {
+    border: none;
+  }
   img {
     height: 200px;
+    width: 220px;
+    margin: 5px auto;
   }
   .card-title {
     font-weight: 700;

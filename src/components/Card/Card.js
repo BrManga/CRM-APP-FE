@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./card.styles.scss";
+import { useEffect } from "react";
 function Card(props) {
-  console.log("props", props);
+  console.log("propssssssssss", props.name, props.id);
   const [saveButton, setSaveButton] = useState(false);
+
   const [data, setData] = useState({
     name: props.name,
     notes: props.notes,
@@ -11,6 +13,7 @@ function Card(props) {
     phone: props.phone,
     avatar: props.avatar
   });
+
   const handleChange = e => {
     setSaveButton(true);
     const { name, value } = e.target;
@@ -63,7 +66,10 @@ function Card(props) {
           }
         ></textarea>
         <hr />
-        <button className="btn btn-danger m-2" onClick={props.deleteHandler}>
+        <button
+          className="btn btn-danger m-2"
+          onClick={() => props.deleteHandler(props.id)}
+        >
           Delete
         </button>
         {saveButton ? (
