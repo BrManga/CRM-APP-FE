@@ -19,9 +19,8 @@ const Signup = () => {
         name
       })
       .then(res => {
-        console.log(res);
+        //console.log(res);
         if (res.data.status === "success") {
-          console.log("hereeeee");
           setSignupsucess(true);
         } else {
           setemailtaken(true);

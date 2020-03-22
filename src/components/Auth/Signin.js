@@ -11,7 +11,7 @@ const Signin = props => {
   const [pass, setPass] = useState("");
   const [wrong, setWrong] = useState(false);
   //const [state, setstate] = useState("")
-  console.log("signinstatus", signinStatus);
+  //console.log("signinstatus", signinStatus);
   const submitHandler = e => {
     e.preventDefault();
     axios
@@ -19,7 +19,7 @@ const Signin = props => {
 
       .then(res => {
         if (res.data.token) {
-          console.log(res.data.token);
+          //console.log(res.data.token);
           localStorage.setItem("token", res.data.token);
           setsigninStatus(true);
         } else {

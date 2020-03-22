@@ -3,16 +3,10 @@ import axios from "axios";
 import "./card.styles.scss";
 import { useEffect } from "react";
 function Card(props) {
-  console.log("propssssssssss", props.name, props.id);
-  const [saveButton, setSaveButton] = useState(false);
+  //console.log("props", props.name, props.id);
 
-  const [data, setData] = useState({
-    name: props.name,
-    notes: props.notes,
-    email: props.email,
-    phone: props.phone,
-    avatar: props.avatar
-  });
+  const [data, setData] = useState({});
+  const [saveButton, setSaveButton] = useState(false);
 
   const handleChange = e => {
     setSaveButton(true);
@@ -24,7 +18,10 @@ function Card(props) {
     props.saveHandler(props.id, data);
     setSaveButton(false);
   };
-
+  const carddeleteHandler = () => {
+    props.deleteHandler(props.id);
+    setData({});
+  };
   return (
     <div className="card m-2">
       <img
@@ -35,14 +32,14 @@ function Card(props) {
       <div className="card-body text-center">
         <input
           className="card-title"
-          value={data.name}
+          value={data.name || props.name}
           onChange={e => handleChange(e)}
           name="name"
         />
         <hr />
         <h5 className="card-email">
           <input
-            value={data.email}
+            value={data.email || props.email}
             onChange={e => handleChange(e)}
             name="email"
           />
@@ -50,7 +47,7 @@ function Card(props) {
         <hr />
         <h5 className="card-phone">
           <input
-            value={data.phone}
+            value={data.phone || props.phone}
             onChange={e => handleChange(e)}
             name="phone"
           />
@@ -62,14 +59,13 @@ function Card(props) {
           onChange={e => handleChange(e)}
           name="notes"
           value={
-            data.notes ? data.notes : "No additional information about user"
+            data.notes || props.notes
+              ? data.notes || props.notes
+              : "No additional information about user"
           }
         ></textarea>
         <hr />
-        <button
-          className="btn btn-danger m-2"
-          onClick={() => props.deleteHandler(props.id)}
-        >
+        <button className="btn btn-danger m-2" onClick={carddeleteHandler}>
           Delete
         </button>
         {saveButton ? (

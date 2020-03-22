@@ -6,7 +6,7 @@ import axios from "axios";
 import FormData from "form-data";
 import { useEffect } from "react";
 function Dashboard(props) {
-  console.log("props", props);
+  //console.log("props", props);
 
   const [login, setLogin] = useState(true);
   const [state, setState] = useState([]);
@@ -16,9 +16,9 @@ function Dashboard(props) {
         headers: { "x-auth-token": localStorage.getItem("token") }
       })
       .then(function(response) {
-        console.log(response);
+        //console.log(response);
         if (response.data.status == "success") {
-          console.log("axios data part", response.data.status);
+          //console.log("axios data part", response.data.status);
 
           setState(response.data.message);
         } else {
@@ -32,7 +32,7 @@ function Dashboard(props) {
       });
   }, []);
   const saveHandler = (id, data) => {
-    console.log("id", id, "data", data);
+    //console.log("id", id, "data", data);
     axios
       .post(
         "http://localhost:5000/api/dashboard/savePerson",
@@ -47,7 +47,7 @@ function Dashboard(props) {
         }
       )
       .then(response => {
-        console.log("FROM FE data saved data:", response.data.message);
+        //console.log("FROM FE data saved data:", response.data.message);
 
         setState(response.data.message);
       });
@@ -66,10 +66,10 @@ function Dashboard(props) {
         }
       )
       .then(response => {
-        console.log("response data", response.data.message);
-
-        setState(response.data.message);
-      });
+        //console.log("response data deletehandler", response.data.message);
+        return response;
+      })
+      .then(response => setState(response.data.message));
   };
   const logout = () => {
     localStorage.setItem("token", "");
@@ -105,8 +105,7 @@ function Dashboard(props) {
       )
       .then(function(response) {
         if (response.data.status == "success") {
-          console.log(response.data.message);
-
+          //console.log(response.data.message);
           setState(response.data.message);
         } else {
           localStorage.removeItem("token");
